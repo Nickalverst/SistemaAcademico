@@ -1,25 +1,23 @@
 #pragma once
 
-#include "ElDisciplina.h"
 #include "Disciplina.h"
+#include "Lista.h"
 
 class ListaDisciplinas
 {
     private:
-        int cont_disc;
-        int numero_disc;
-        char nome[150];
-
-        ElDisciplina* pElDisciplinaPrim;
-        ElDisciplina* pElDisciplinaAtual;
+        Lista<Disciplina> LTDisciplinas;
 
     public:
         ListaDisciplinas(int nd = 1000, const char* n = "");
         ~ListaDisciplinas();
 
-        void setNome(const char* n);
-
         void incluaDisciplina(Disciplina* pd);
+        void limpaLista();
+
         void listeDisciplinas();
         void listeDisciplinasReverso();
+
+        void graveDisciplinas();
+        void recupereDisciplinas();
 };

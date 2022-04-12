@@ -7,15 +7,19 @@ using namespace std;
 class Universidade
 {
     private:
+        int id;
         char nome[100];
-        ListaDepartamentos* ObjLDepartamentos;
+        ListaDepartamentos ObjLDepartamentos;
 
     public:
-        Universidade(const char* n = "");
+        Universidade(int i = -1, const char* n = "");
         ~Universidade();
 
         void setNome(const char* n);
         char* getNome();
+
+        int getId();
+        void setId(int i);
 
         void incluaDepartamento(Departamento* pdep);
         void listeDepartamentos();

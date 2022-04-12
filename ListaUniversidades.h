@@ -2,13 +2,14 @@
 
 #include "ElUniversidade.h"
 #include "Universidade.h"
+#include "MinhaString.h"
 
 class ListaUniversidades
 {
 private:
     int cont_univ;
     int numero_univ;
-    char nome[150];
+    MinhaString nome;
     ElUniversidade* pElUniversidadePrim;
     ElUniversidade* pElUniversidadeAtual;
 public:
@@ -16,10 +17,14 @@ public:
     ~ListaUniversidades();
 
     void setNome(const char* n);
-    //char* getNome();
+    char* getNome();
 
     void incluaUniversidade(Universidade *pu);
     void listeUniversidades();
     void listeUniversidadesInverso();
     Universidade* localizar (const char* n);
+
+    void graveUniversidades();
+    void recupereUniversidades();
+    void limpaLista();
 };

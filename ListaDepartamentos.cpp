@@ -1,5 +1,7 @@
 #include "ListaDepartamentos.h"
 #include <string.h>
+#include <stdlib.h>
+#include <fstream>
 #include <iostream>
 using namespace std;
 
@@ -92,4 +94,77 @@ Departamento* ListaDepartamentos::localizar(char* n)
     }
 
     return NULL;
+}
+
+void ListaDepartamentos::graveDepartamentos()
+{
+    ofstream GravadorDepartamentos("departamentos.dat", ios::out);
+
+    if (!GravadorDepartamentos)
+    {
+        cerr << "Arquivo não pode ser aberto. " << endl;
+        fflush(stdin);
+        getchar();
+        return;
+    }
+
+    ElDepartamento* pAuxElDepartamento = NULL;
+    Departamento* pAuxDepartamento = NULL;
+
+    for (pAuxElDepartamento = pElDepartamentoPrim; pAuxElDepartamento != NULL; pAuxElDepartamento = pAuxElDepartamento->getProxDepartamento())
+    {
+        pAuxDepartamento = pAuxElDepartamento->getDepartamento();
+
+        GravadorDepartamentos << pAuxDepartamento->getId()   << ""
+                              << pAuxDepartamento->getNome() << endl;
+    }
+
+    GravadorDepartamentos.close();
+    cout << "Êxito na gravação. " << endl;
+}
+
+void ListaDepartamentos::recupereDepartamentos()
+{
+    ifstream RecuperadorDepartamentos("alunos.dat", ios::in);
+
+    if (!RecuperadorDepartamentos)
+    {
+        cerr << "Arquivo não pode ser aberto. " << endl;
+        fflush(stdin);
+        getchar();
+        return;
+    }
+    limpaLista();
+
+    while (!RecuperadorDepartamentos.eof())
+    {
+        Departamento* pAuxDepartamento = NULL;
+        int id;
+        char nome[150];
+
+        RecuperadorDepartamentos >> id >> nome;
+        if (0 != strcmp(nome, ""))
+        {
+            pAuxDepartamento = new Departamento(-1);
+            pAuxDepartamento->setId(id);
+            pAuxDepartamento->setNome(nome);
+        }
+    }
+
+    RecuperadorDepartamentos.close();
+    cout << "Êxito na recuperação. " << endl;
+}
+
+void ListaDepartamentos::limpaLista()
+{
+    ElDepartamento *pAux1 = NULL, *pAux2 = NULL;
+
+    for (pAux1 = pElDepartamentoPrim; pAux1 != NULL; pAux1 = pAux2)
+    {
+        pAux2 = pAux1->getProxDepartamento();
+        delete (pAux1);
+    }
+
+    pElDepartamentoAtual = NULL;
+    pElDepartamentoPrim = NULL;
 }

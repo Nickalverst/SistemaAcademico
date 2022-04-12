@@ -9,7 +9,7 @@ class Professor : public Pessoa
         Universidade* pUnivFiliado;
         Departamento* pDepFiliado;
     public:
-        Professor(int diaNa, int mesNa, int anoNa, const char* nome = "");
+        Professor(int i = -1, int diaNa = 0, int mesNa = 0, int anoNa = 0, const char* nome = "");
         Professor();
         ~Professor();
 

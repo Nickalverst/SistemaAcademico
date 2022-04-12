@@ -6,9 +6,22 @@
 using std::cout;
 using std::endl;
 
-Pessoa::Pessoa(int nDia, int nMes, int nAno, const char* nNome)
+Pessoa::Pessoa(int i, int nDia, int nMes, int nAno, const char* nNome)
 {
-    inicializa(nDia, nMes, nAno, nNome);
+    id = i;
+
+    strcpy(nome, nNome);
+
+    if (nDia > 0 && nDia <= 31)
+        diaNasc = nDia;
+    if (nMes <= 12 && nMes > 0)
+        mesNasc = nMes;
+
+    anoNasc = nAno;
+
+    idade = -1;
+
+    calculaIdade(7, 3, 2022);
 }
 
 Pessoa::Pessoa() // O C++ sempre cria uma construtora sem parâmetros
@@ -18,6 +31,7 @@ Pessoa::Pessoa() // O C++ sempre cria uma construtora sem parâmetros
 
 void Pessoa::inicializa(int nDia, int nMes, int nAno, const char* nNome)
 {
+    id = -1;
     strcpy(nome, nNome);
 
     if (nDia > 0 && nDia <= 31)
@@ -90,4 +104,14 @@ void Pessoa::setDataDeNascimento(int nDia, int nMes, int nAno)
         mesNasc = nMes;
 
     anoNasc = nAno;
+}
+
+int Pessoa::getId()
+{
+    return id;
+}
+
+void Pessoa::setId(int i)
+{
+    id = i;
 }

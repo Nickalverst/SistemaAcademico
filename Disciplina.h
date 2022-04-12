@@ -1,9 +1,8 @@
 #pragma once
+#include <stdio.h>
+#include <string.h>
 
-#include "Aluno.h"
-#include "ElAluno.h"
 #include "ListaAlunos.h"
-#include "Departamento.h"
 
 class Departamento;
 
@@ -11,22 +10,21 @@ class Disciplina
 {
     private:
         int id;
+        int cont_alunos;
+        int numero_alunos;
         char nome[150];
         char area_conhecimento[150];
 
         Departamento* pDepAssociado;
 
-        ListaAlunos* ObjAlunos;
+        ListaAlunos ObjLAlunos;
 
     public:
-        Disciplina(const char* n = "", const char* ac = "", int na = 45);
+        Disciplina(int i = -1, const char* n = "", const char* ac = "", int na = 45);
         ~Disciplina();
 
-        void setProxDisciplina(Disciplina* prox);
-        Disciplina* getProxDisciplina();
-
-        void setDisciplinaAnter(Disciplina* anter);
-        Disciplina* getDisciplinaAnter();
+        void setNumeroAlunos(int na);
+        int getNumeroAlunos();
 
         void setId(int n);
         int getId();

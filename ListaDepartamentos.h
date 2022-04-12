@@ -23,4 +23,8 @@ class ListaDepartamentos
         void listeDepartamentos();
         void listeDepartamentosReverso();
         Departamento* localizar (char* n);
+
+        void recupereDepartamentos();
+        void graveDepartamentos();
+        void limpaLista();
 };

@@ -6,57 +6,23 @@
 #include "Disciplina.h"
 #include "ListaUniversidades.h"
 #include "ListaDisciplinas.h"
+#include "ListaAlunos.h"
+#include "MinhaString.h"
 
 class Principal
 {
     private:
+        int cont_idDisc;
+        int cont_idDepart;
+        int cont_idAluno;
+        int cont_idUniv;
+
         ListaUniversidades LUniversidades;
         ListaDepartamentos LDepartamentos;
         ListaDisciplinas LDisciplinas;
+        ListaAlunos LAlunos;
 
-        // Universidades
-        Universidade UTFPR;
-        Universidade Princeton;
-        Universidade Cambridge;
-
-        // Departamentos
-        Departamento Matematica;
-        Departamento Informatica;
-        Departamento Fisica;
-
-        // Disciplinas
-        Disciplina TecProg;
-        Disciplina FundProg;
-        Disciplina Calculo;
-
-        // Professores
-        Professor Simao;
-        Professor Einstein;
-        Professor Newton;
-
-        // Alunos
-        Aluno Nicolas;
-
-        /*Departamento DACOC_UTFPR; // Departamento Acadêmico de Construção Civil
-        Departamento DADIN_UTFPR; // Departamento Acadêmico de Desenho Industrial
-        Departamento DAEFI_UTFPR; // Departamento Acadêmico de Educação Física
-        Departamento DAELN_UTFPR; // Departamento Acadêmico de Eletrônica
-        Departamento DAELT_UTFPR; // Departamento Acadêmico de Eletrotécnica
-        Departamento DAESO_UTFPR; // Departamento Acadêmico de Estudos Sociais
-        Departamento DAEST_UTFPR; // Departamento Acadêmico de Estatística
-        Departamento DAFIS_UTFPR; // Departamento Acadêmico de Física
-        Departamento DAGEE_UTFPR; // Departamento Acadêmico de Gestão e Economia
-        Departamento DAINF_UTFPR; // Departamento Acadêmico de Informática
-        Departamento DALEM_UTFPR; // Departamento Acadêmico de Línguas Estrangeiras Modernas
-        Departamento DALIC_UTFPR; // Departamento Acadêmico de Linguagem e Comunicação
-        Departamento DAMAT_UTFPR; // Departamento Acadêmico de Matemática
-        Departamento DAMEC_UTFPR; // Departamento Acadêmico de Mecânica
-        Departamento DAQBI_UTFPR; // Departamento Acadêmico de Química e Biologia
-        Departamento DEAAU_UTFPR; // Departamento Acadêmico de Arquitetura e Urbanismo*/
-
-        int diaAtual;
-        int mesAtual;
-        int anoAtual;
+        int diaAtual, mesAtual, anoAtual;
 
     public:
         Principal();
@@ -70,12 +36,33 @@ class Principal
         void InicializaDisciplinas();
         void InicializaAlunos();
 
+        // Menus de cadastramento
         void CadDisciplina();
         void CadDepartamento();
         void CadUniversidade();
+        void CadAluno();
 
+        // Gravação
+        void GravarTudo();
+        void GravarUniversidades();
+        void GravarDepartamentos();
+        void GravarDisciplinas();
+        void GravarProfessores();
+        void GravarAlunos();
+
+        // Leitura
+        void RecuperarTudo();
+        void RecuperarUniversidades();
+        void RecuperarDepartamentos();
+        void RecuperarDisciplinas();
+        void RecuperarProfessores();
+        void RecuperarAlunos();
+
+        // Interface
         void Menu();
         void MenuCad();
         void MenuExe();
+        void MenuGravar();
+        void MenuRecuperar();
         void Executar();
 };

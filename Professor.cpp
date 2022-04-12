@@ -3,8 +3,8 @@
 #include <iostream>
 using namespace std;
 
-Professor::Professor(int diaNa, int mesNa, int anoNa, const char* nome):
-    Pessoa(diaNa, mesNa, anoNa, nome)
+Professor::Professor(int i, int diaNa, int mesNa, int anoNa, const char* nome):
+    Pessoa(i, diaNa, mesNa, anoNa, nome)
     {
         pUnivFiliado = NULL;
         pDepFiliado = NULL;

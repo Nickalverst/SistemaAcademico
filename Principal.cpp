@@ -8,19 +8,11 @@ using namespace std;
 #include <time.h>
 
 Principal::Principal():
-Simao(3, 10, 1976, "Jean Simão"), // Sempre chamar as contrutoras (o C++ sempre chama)
-Einstein(14, 3, 1879, "Albert Einstein"),
-Newton(4, 1, 1643, "Isaac Newton"),
-UTFPR("Universidade Tecnológica Federal do Paraná"),
-Princeton("Princeton University"),
-Cambridge("Cambridge University"),
-Matematica("Matemática"),
-Informatica("Informática"),
-Fisica("Física"),
-TecProg("Técnicas de Programação", "Computação", 52),
-FundProg("Fundamentos de Programação", "Computação", 40),
-Calculo("Cálculo Diferencial e Integral", "Matemática", 60),
-Nicolas(25, 07, 2001, "Nicolas Barbieri Sousa")
+// Geradores de identificação
+cont_idAluno (0),
+cont_idDepart(0),
+cont_idDisc  (0),
+cont_idUniv  (0)
 {
     // Obtenção da data atual
     time_t t = time(NULL);
@@ -50,88 +42,58 @@ void Principal::Inicializa()
 
 void Principal::InicializaUniversidades()
 {
-    // Agregação dos departamentos às universidades
-    UTFPR.incluaDepartamento(&Informatica);
-    Princeton.incluaDepartamento(&Fisica);
-    Cambridge.incluaDepartamento(&Matematica);
 }
 
 void Principal::InicializaDepartamentos()
 {
-    // Associação das universidades aos departamentos
-    Informatica.setUniversidade(&UTFPR);
-    Fisica.setUniversidade(&Princeton);
-    Matematica.setUniversidade(&Cambridge);
 }
 
 void Principal::InicializaProfessores()
 {
-    // Associação dos professores às universidades
-    Simao.setUniversidade(&UTFPR);
-    Einstein.setUniversidade(&Princeton);
-    Newton.setUniversidade(&Cambridge);
-
-    // Associação dos professores aos departamentos
-    Simao.setDepartamento(&Informatica);
-    Einstein.setDepartamento(&Fisica);
-    Newton.setDepartamento(&Matematica);
 }
 
 void Principal::InicializaDisciplinas()
 {
-    Calculo.setDepartamento(&Matematica);
-    TecProg.setDepartamento(&Informatica);
-    FundProg.setDepartamento(&Informatica);
-
-    Calculo.incluirAluno(&Nicolas);
-    TecProg.incluirAluno(&Nicolas);
 }
 
 void Principal::InicializaAlunos()
 {
-    Nicolas.setRA(2306387);
 }
 
 void Principal::Executar()
 {
     Menu();
-    /*
-    Simao.calculaImprimeIdade(diaAtual, mesAtual, anoAtual);
-    Einstein.calculaImprimeIdade(diaAtual, mesAtual, anoAtual);
-    Newton.calculaImprimeIdade(diaAtual, mesAtual, anoAtual);
-
-    Simao.OndeTrabalho();
-    Einstein.OndeTrabalho();
-    Newton.OndeTrabalho();
-
-    UTFPR.listeDepartamentos();
-    Informatica.listeDisciplinas();*/
 }
 
 void Principal::Menu()
 {
     int op = -1;
 
-    while (op != 3)
+    while (op != 5)
     {
         system("cls");
         cout << " Informe sua opção:   " << endl;
         cout << "1 - Cadastrar.        " << endl;
         cout << "2 - Executar.         " << endl;
-        cout << "3 - Sair.             " << endl;
+        cout << "3 - Gravar.           " << endl;
+        cout << "4 - Recuperar.        " << endl;
+        cout << "5 - Sair.             " << endl;
         cin >> op;
 
         switch (op)
         {
-            case 1: { MenuCad(); }
+            case 1: {  MenuCad(); }
                 break;
             case 2: { MenuExe(); }
                 break;
-            case 3: { cout << "FIM" << endl; }
+            case 3: { MenuGravar(); }
                 break;
+            case 4: { MenuRecuperar(); }
+                break;
+            case 5: { cout << "FIM" << endl; }
+                return;
             default: { cout << "Opção inválida." << endl;
                         system("Pause"); }
-
         }
     }
 }
@@ -140,39 +102,43 @@ void Principal::MenuCad()
 {
     int op = -1;
 
-    while (op!= 4)
+    while (op!= 5)
     {
         system("cls");
         cout << "Informe sua opção:           " << endl;
-        cout << "1 - Cadastrar disciplinas.   " << endl;
-        cout << "2 - Cadastrar departamentos. " << endl;
-        cout << "3 - Cadastrar universidades. " << endl;
-        cout << "4 - Sair.                    " << endl;
+        cout << "1 - Cadastrar disciplina.    " << endl;
+        cout << "2 - Cadastrar departamento.  " << endl;
+        cout << "3 - Cadastrar universidade.  " << endl;
+        cout << "4 - Cadastrar alunos.        " << endl;
+        cout << "5 - Voltar.                  " << endl;
         cin >> op;
 
         switch (op)
         {
-            case 1:
-                {
-                    CadDisciplina();
-                } break;
-            case 2:
-                {
-                    CadDepartamento();
-                } break;
-            case 3:
-                {
-                    CadUniversidade();
-                } break;
-            case 4:
-                {
-                    cout << "FIM" << endl;
-                } break;
-            default:
-                {
-                    cout << "Opção inválida" << endl;
-                    getchar();
-                } break;
+        case 1:
+            {
+                CadDisciplina();
+            } break;
+        case 2:
+            {
+                CadDepartamento();
+            } break;
+        case 3:
+            {
+                CadUniversidade();
+            } break;
+        case 4:
+            {
+                CadAluno();
+            } break;
+        case 5:
+            {
+            } break;
+        default:
+            {
+                cout << "Opção inválida" << endl;
+                getchar();
+            } break;
         }
     }
 }
@@ -181,14 +147,15 @@ void Principal::MenuExe()
 {
     int op = -1;
 
-    while (op != 4)
+    while (op != 5)
     {
         system("cls");
         cout << "Informe sua opção:       " << endl;
         cout << "1 - Listar disciplinas   " << endl;
         cout << "2 - Listar departamentos " << endl;
         cout << "3 - Listar universidades " << endl;
-        cout << "4 - Sair                 " << endl;
+        cout << "4 - Listar alunos        " << endl;
+        cout << "5 - Voltar               " << endl;
         cin >> op;
 
         switch (op)
@@ -213,6 +180,12 @@ void Principal::MenuExe()
             } break;
         case 4:
             {
+                LAlunos.listeAlunos();
+                fflush(stdin);
+                getchar();
+            } break;
+        case 5:
+            {
                 cout << "FIM" << endl;
             } break;
         default:
@@ -220,6 +193,84 @@ void Principal::MenuExe()
                 cout << "Opção inválida." << endl;
                 getchar();
             } break;
+        }
+    }
+}
+
+void Principal::MenuGravar()
+{
+    int op = -1;
+
+    while (op != 6)
+    {
+        system("cls");
+        cout << " Informe sua opção:       " << endl;
+        cout << "0 - Gravar tudo.          " << endl;
+        cout << "1 - Gravar universidades. " << endl;
+        cout << "2 - Gravar departamentos. " << endl;
+        cout << "3 - Gravar disciplinas.   " << endl;
+        cout << "4 - Gravar alunos.        " << endl;
+        cout << "5 - Gravar professores.   " << endl;
+        cout << "6 - Voltar.               " << endl;
+        cin >> op;
+
+        switch (op)
+        {
+            case 0: { GravarTudo(); }
+                break;
+            case 1: { GravarUniversidades(); }
+                break;
+            case 2: { GravarDepartamentos(); }
+                break;
+            case 3: { GravarDisciplinas(); }
+                break;
+            case 4: { GravarAlunos(); }
+                break;
+            case 5: { GravarProfessores(); }
+                break;
+            case 6: { cout << "FIM" << endl; }
+                return;
+            default: { cout << "Opção inválida." << endl;
+                        system("Pause"); }
+        }
+    }
+}
+
+void Principal::MenuRecuperar()
+{
+    int op = -1;
+
+    while (op != 6)
+    {
+        system("cls");
+        cout << " Informe sua opção:       " << endl;
+        cout << "0 - Recuperar tudo.          " << endl;
+        cout << "1 - Recuperar universidades. " << endl;
+        cout << "2 - Recuperar departamentos. " << endl;
+        cout << "3 - Recuperar disciplinas.   " << endl;
+        cout << "4 - Recuperar alunos.        " << endl;
+        cout << "5 - Recuperar professores.   " << endl;
+        cout << "6 - Voltar.                  " << endl;
+        cin >> op;
+
+        switch (op)
+        {
+            case 0: { RecuperarTudo(); }
+                break;
+            case 1: { RecuperarUniversidades(); }
+                break;
+            case 2: { RecuperarDepartamentos(); }
+                break;
+            case 3: { RecuperarDisciplinas(); }
+                break;
+            case 4: { RecuperarAlunos(); }
+                break;
+            case 5: { RecuperarProfessores(); }
+                break;
+            case 6: { cout << "FIM" << endl; }
+                return;
+            default: { cout << "Opção inválida." << endl;
+                        system("Pause"); }
         }
     }
 }
@@ -267,40 +318,112 @@ void Principal::CadDepartamento()
 void Principal::CadDisciplina()
 {
     char nomeDisciplina[150];
-    char nomeUniversidade[150];
     char nomeDepartamento[150];
     Disciplina* pDisc;
-    Universidade* pUniv;
     Departamento* pDepart;
 
-    cout << "Qual o nome da universidade? " << endl;
-    cin >> nomeUniversidade;
-    pUniv = LUniversidades.localizar(nomeUniversidade);
+    cout << "Qual o nome do departamento? " << endl;
+    cin >> nomeDepartamento;
+    pDepart = LDepartamentos.localizar(nomeDepartamento);
 
-    if (pUniv != NULL)
+    if (pDepart != NULL)
     {
-        cout << "Qual o nome do departamento? " << endl;
-        cin >> nomeDepartamento;
-        pDepart = LDepartamentos.localizar(nomeDepartamento);
-
-        if (pDepart != NULL)
-        {
-            cout << "Qual o nome da disciplina?   " << endl;
-            cin >> nomeDisciplina;
-            pDisc = new Disciplina();
-            pDisc->setNome(nomeDisciplina);
-            pDisc->setDepartamento(pDepart);
-            LDisciplinas.incluaDisciplina(pDisc);
-            pDepart->incluaDisciplina(pDisc);
-        }
-        else
-        {
-            cout << "Departamento inexistente. " << endl;
-        }
-
+        cout << "Qual o nome da disciplina?   " << endl;
+        cin >> nomeDisciplina;
+        pDisc = new Disciplina();
+        pDisc->setNome(nomeDisciplina);
+        pDisc->setDepartamento(pDepart);
+        LDisciplinas.incluaDisciplina(pDisc);
+        pDepart->incluaDisciplina(pDisc);
     }
     else
     {
-        cout << "Universidade inexistente. " << endl;
+        cout << "Departamento inexistente. " << endl;
     }
+}
+
+void Principal::CadAluno()
+{
+    char nomeAluno[150];
+    int ra;
+    Aluno* pAluno = NULL;
+
+    cout << "Qual o nome do aluno? " << endl;
+    cin >> nomeAluno;
+
+    cout << "Qual o RA do aluno? " << endl;
+    cin >> ra;
+
+    pAluno = new Aluno(cont_idAluno++);
+    pAluno->setNome(nomeAluno);
+    pAluno->setRA(ra);
+    LAlunos.incluaAluno(pAluno);
+}
+
+void Principal::RecuperarTudo()
+{
+    LUniversidades.recupereUniversidades();
+    LDepartamentos.recupereDepartamentos();
+    LDisciplinas.recupereDisciplinas();
+
+    LAlunos.recupereAlunos();
+}
+
+void Principal::RecuperarUniversidades()
+{
+    LUniversidades.recupereUniversidades();
+}
+
+void Principal::RecuperarDepartamentos()
+{
+    LDepartamentos.recupereDepartamentos();
+}
+
+void Principal::RecuperarDisciplinas()
+{
+    LDisciplinas.recupereDisciplinas();
+}
+
+void Principal::RecuperarProfessores()
+{
+
+}
+
+void Principal::RecuperarAlunos()
+{
+    LAlunos.recupereAlunos();
+}
+
+void Principal::GravarTudo()
+{
+    LUniversidades.graveUniversidades();
+    LDepartamentos.graveDepartamentos();
+    LDisciplinas.graveDisciplinas();
+
+    LAlunos.graveAlunos();
+}
+
+void Principal::GravarUniversidades()
+{
+    LUniversidades.graveUniversidades();
+}
+
+void Principal::GravarDepartamentos()
+{
+    LDepartamentos.graveDepartamentos();
+}
+
+void Principal::GravarDisciplinas()
+{
+    LDisciplinas.graveDisciplinas();
+}
+
+void Principal::GravarProfessores()
+{
+    // TO DO
+}
+
+void Principal::GravarAlunos()
+{
+    LAlunos.graveAlunos();
 }

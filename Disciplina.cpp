@@ -1,22 +1,31 @@
-#include "Disciplina.h"
 #include "Departamento.h"
+#include "Disciplina.h"
 
-#include <stdio.h>
-#include <string.h>
-
-Disciplina::Disciplina(const char* n, const char* ac, int na)
+Disciplina::Disciplina(int i, const char* n, const char* ac, int na):
+ObjLAlunos()
 {
+    id = i;
     pDepAssociado = NULL;
 
-    ObjAlunos = new ListaAlunos(na, n);
-
-    strcpy(area_conhecimento, ac);
+    numero_alunos = na;
     strcpy(nome, n);
+    strcpy(area_conhecimento, ac);
 }
 
 Disciplina::~Disciplina()
 {
     pDepAssociado = NULL;
+}
+
+void Disciplina::setNumeroAlunos(int na)
+{
+    numero_alunos = 1;
+    numero_alunos = na;
+}
+
+int Disciplina::getNumeroAlunos()
+{
+    return numero_alunos;
 }
 
 void Disciplina::setId(int n)
@@ -54,15 +63,32 @@ Departamento* Disciplina::getDepartamento()
 
 void Disciplina::incluirAluno(Aluno* al)
 {
-    ObjAlunos->incluaAluno(al);
+    if (NULL != al)
+    {
+        if ((cont_alunos < numero_alunos) || (-1 == numero_alunos))
+        {
+            ObjLAlunos.incluaAluno(al);
+            cont_alunos++;
+        }
+        else
+        {
+            cout << "Aluno não incluído. Turma lotada em " << numero_alunos << "alunos. " << endl;
+        }
+    }
+    else
+    {
+        cout << "Erro! Aluno não incluído. Ponteiro inválido. " << endl;
+    }
 }
 
 void Disciplina::listaAlunos()
 {
-    ObjAlunos->listeAlunos();
+    cout << "\nAlunos matriculados na disciplina " << area_conhecimento << ":" << endl;
+    ObjLAlunos.listeAlunos();
 }
 
 void Disciplina::listaAlunosReverso()
 {
-    ObjAlunos->listeAlunosInverso();
+    cout << "\nAlunos matriculados na disciplina " << area_conhecimento << ":" << endl;
+    ObjLAlunos.listeAlunosInverso();
 }

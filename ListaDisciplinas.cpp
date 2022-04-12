@@ -1,80 +1,119 @@
 #include "ListaDisciplinas.h"
 #include <string.h>
+#include <fstream>
 #include <iostream>
 using namespace std;
 
 ListaDisciplinas::ListaDisciplinas(int nd, const char* n)
 {
-    numero_disc = nd;
-    cont_disc = 0;
-
-    pElDisciplinaAtual = NULL;
-    pElDisciplinaPrim = NULL;
-
-    strcpy(nome, n);
 }
 
 ListaDisciplinas::~ListaDisciplinas()
 {
-    ElDisciplina *pAux1, *pAux2;
-
-    pAux1 = pElDisciplinaPrim;
-    pAux2 = pAux1;
-
-    while (pAux1 != NULL)
-    {
-        pAux2 = pAux1->getProxDisciplina();
-        delete(pAux1);
-        pAux1 = pAux2;
-    }
-
-    pElDisciplinaAtual = NULL;
-    pElDisciplinaPrim = NULL;
-}
-
-void ListaDisciplinas::setNome(const char* n)
-{
-    strcpy(nome, n);
+    limpaLista();
 }
 
 void ListaDisciplinas::incluaDisciplina(Disciplina* pd)
 {
-    if ((cont_disc < numero_disc && pd != NULL) || (numero_disc == -1 && pd != NULL))
+    if (pd != NULL)
     {
-        ElDisciplina* pAux = new ElDisciplina;
-
-        pAux->setDisciplina(pd);
-
-        if (pElDisciplinaPrim == NULL)
-        {
-            pElDisciplinaPrim = pAux;
-            pElDisciplinaAtual = pAux;
-        } else
-        {
-            pElDisciplinaAtual->setProxDisciplina(pAux);
-            pAux->setDisciplinaAnterior(pElDisciplinaAtual);
-            pElDisciplinaAtual = pAux;
-        }
-        cont_disc++;
+        LTDisciplinas.incluaInfo(pd);
     }
     else
     {
-        cout << "Disciplina não incluída, limite de " << numero_disc << "excedido. \n" << endl;
+        cout << "Ponteiro nulo. " << endl;
     }
 }
 
 void ListaDisciplinas::listeDisciplinas()
 {
-    for (ElDisciplina* pAux = pElDisciplinaPrim; pAux != NULL; pAux = pAux->getProxDisciplina())
+    Elemento<Disciplina>* pElAux = NULL;
+    Disciplina* pAlAux = NULL;
+    for (pElAux = LTDisciplinas.getPrimeiro(); pElAux != NULL; pElAux = pElAux->getProximo())
     {
-        printf("A disciplina %s pertence ao departamento %s. \n", pAux->getNome(), pAux->getDisciplina()->getDepartamento()->getNome());
+        pAlAux = pElAux->getInfo();
+        cout << "Disciplina " << pAlAux->getNome() << " está cadastrada na universidade. " << endl;
     }
 }
 
 void ListaDisciplinas::listeDisciplinasReverso()
 {
-    for (ElDisciplina* pAux = pElDisciplinaAtual; pAux != NULL; pAux = pAux->getDisciplinaAnterior())
+    Elemento<Disciplina>* pElAux = NULL;
+    Disciplina* pAlAux = NULL;
+    for (pElAux = LTDisciplinas.getAtual(); pElAux != NULL; pElAux = pElAux->getAnterior())
     {
-        printf("A disciplina %s pertence ao departamento %s. \n", pAux->getNome(), pAux->getDisciplina()->getDepartamento()->getNome());
+        pAlAux = pElAux->getInfo();
+        cout << "Disciplina " << pAlAux->getNome() << " está cadastrada na universidade. " << endl;
+    }
+}
+
+
+void ListaDisciplinas::graveDisciplinas()
+{
+    ofstream GravadorDisciplinas("disciplinas.dat", ios::out);
+
+    if (!GravadorDisciplinas)
+    {
+        cerr << "Arquivo não pode ser aberto. " << endl;
+        fflush(stdin);
+        getchar();
+        return;
+    }
+
+    Elemento<Disciplina>* pAuxElDisciplina = NULL;
+    Disciplina* pAuxDisciplina = NULL;
+
+    for (pAuxElDisciplina = LTDisciplinas.getPrimeiro(); pAuxElDisciplina != NULL; pAuxElDisciplina = pAuxElDisciplina->getProximo())
+    {
+        pAuxDisciplina = pAuxElDisciplina->getInfo();
+
+        GravadorDisciplinas << pAuxDisciplina->getId()   << ""
+                              << pAuxDisciplina->getNome() << endl;
+    }
+
+    GravadorDisciplinas.close();
+    cout << "Êxito na gravação. " << endl;
+}
+
+void ListaDisciplinas::recupereDisciplinas()
+{
+    ifstream RecuperadorDisciplinas("disciplinas.dat", ios::in);
+
+    if (!RecuperadorDisciplinas)
+    {
+        cerr << "Arquivo não pode ser aberto. " << endl;
+        fflush(stdin);
+        getchar();
+        return;
+    }
+    limpaLista();
+
+    while (!RecuperadorDisciplinas.eof())
+    {
+        Disciplina* pAuxDisciplina = NULL;
+        int id;
+        char nome[150];
+
+        RecuperadorDisciplinas >> id >> nome;
+        if (0 != strcmp(nome, ""))
+        {
+            pAuxDisciplina = new Disciplina(-1);
+            pAuxDisciplina->setId(id);
+            pAuxDisciplina->setNome(nome);
+        }
+    }
+
+    RecuperadorDisciplinas.close();
+    cout << "Êxito na recuperação. " << endl;
+}
+
+void ListaDisciplinas::limpaLista()
+{
+    Elemento<Disciplina> *pAux1 = NULL, *pAux2 = NULL;
+
+    for (pAux1 = LTDisciplinas.getPrimeiro(); pAux1 != NULL; pAux1 = pAux2)
+    {
+        pAux2 = pAux1->getProximo();
+        delete (pAux1);
     }
 }

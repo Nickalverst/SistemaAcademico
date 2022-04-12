@@ -3,11 +3,11 @@
 #include <iostream>
 using namespace std;
 
-Universidade::Universidade(const char* n)
+Universidade::Universidade(int i, const char* n):
+ObjLDepartamentos()
 {
+    id = i;
     strcpy(nome, n);
-
-    ObjLDepartamentos = new ListaDepartamentos(100, "algor");
 }
 
 Universidade::~Universidade()
@@ -24,12 +24,22 @@ char* Universidade::getNome()
     return nome;
 }
 
+void Universidade::setId(int i)
+{
+    id = i;
+}
+
+int Universidade::getId()
+{
+    return id;
+}
+
 void Universidade::incluaDepartamento(Departamento* pdep)
 {
-    ObjLDepartamentos->incluaDepartamento(pdep);
+    ObjLDepartamentos.incluaDepartamento(pdep);
 }
 
 void Universidade::listeDepartamentos()
 {
-    ObjLDepartamentos->listeDepartamentos();
+    //ObjLDepartamentos.listeInfos();
 }

@@ -4,6 +4,7 @@
 class Pessoa
 {
 protected:
+    int id;
     int idade;
     int diaNasc;
     int mesNasc;
@@ -11,7 +12,7 @@ protected:
     char nome[30];
 
 public:
-    Pessoa(int nDia, int nMes, int nAno, const char* nome = "");
+    Pessoa(int i, int nDia = 0, int nMes = 0, int nAno = 0, const char* nNome = "");
     Pessoa();
     void inicializa (int nDia, int nMes, int nAno, const char* nome = "");
 
@@ -21,6 +22,9 @@ public:
 
     int getIdade();
     char* getNome();
+
+    void setId(int id);
+    int getId();
 
     void setNome(char nNome[30]);
     void setDataDeNascimento(int nDia, int nMes, int nAno);

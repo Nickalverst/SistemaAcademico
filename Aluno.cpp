@@ -1,20 +1,10 @@
 #include "Aluno.h"
-#include "Departamento.h"
-#include<stdlib.h>
-#include <string.h>
-#include <iostream>
-using namespace std;
 
-Aluno::Aluno(int diaNa, int mesNa, int anoNa, const char* nome):
-    Pessoa(diaNa, mesNa, anoNa, nome)
-    {
-    }
-
-Aluno::Aluno(int i):
-    Pessoa()
-    {
-        RA = i;
-    }
+Aluno::Aluno(int i) : Pessoa(id)
+{
+    id = -1;
+	RA = 0;
+}
 
 Aluno::~Aluno()
 {
@@ -22,20 +12,14 @@ Aluno::~Aluno()
 
 void Aluno::setRA(int ra)
 {
-    RA = ra;
+	RA = ra;
 }
-
 int Aluno::getRA()
 {
-    return RA;
+	return RA;
 }
 
-void Aluno::setDepartamento(Departamento* pd)
+int Aluno::getId()
 {
-    pDeptoAssociado = pd;
-}
-
-Departamento* Aluno::getDepartamento()
-{
-    return pDeptoAssociado;
+	return id;
 }
