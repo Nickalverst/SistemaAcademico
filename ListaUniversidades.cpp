@@ -4,91 +4,60 @@
 #include <iostream>
 using namespace std;
 
-ListaUniversidades::ListaUniversidades(int nd, const char* n)
+ListaUniversidades::ListaUniversidades()
 {
-    numero_univ = nd;
-    cont_univ = 0;
-
-    pElUniversidadeAtual = NULL;
-    pElUniversidadePrim = NULL;
-
-    nome = n;
 }
 
 ListaUniversidades::~ListaUniversidades()
 {
-    ElUniversidade *pAux1, *pAux2;
-
-    pAux1 = pElUniversidadePrim;
-    pAux2 = pAux1;
-
-    while (pAux1 != NULL)
-    {
-        pAux2 = pAux1->getProxUniversidade();
-        delete(pAux1);
-        pAux1 = pAux2;
-    }
-
-    pElUniversidadeAtual = NULL;
-    pElUniversidadePrim = NULL;
-}
-
-void ListaUniversidades::setNome(const char* n)
-{
-    nome = n;
 }
 
 void ListaUniversidades::incluaUniversidade(Universidade* pd)
 {
-    if ((cont_univ < numero_univ && pd != NULL) || (numero_univ == -1 && pd != NULL))
+    if (NULL != pd)
     {
-        ElUniversidade* pAux = new ElUniversidade;
-
-        pAux->setUniversidade(pd);
-
-        if (pElUniversidadePrim == NULL)
-        {
-            pElUniversidadePrim = pAux;
-            pElUniversidadeAtual = pAux;
-        } else
-        {
-            pElUniversidadeAtual->setProxUniversidade(pAux);
-            pAux->setUniversidadeAnterior(pElUniversidadeAtual);
-            pElUniversidadeAtual = pAux;
-        }
-        cont_univ++;
-    }
-    else
+        LTUniversidades.incluaInfo(pd);
+    } else
     {
-        cout << "Universidade não incluída, limite de " << numero_univ << "excedido. \n" << endl;
+        cout << "Ponteiro nulo. \n" << endl;
     }
 }
 
 void ListaUniversidades::listeUniversidades()
 {
-    for (ElUniversidade* pAux = pElUniversidadePrim; pAux != NULL; pAux = pAux->getProxUniversidade())
+    Elemento<Universidade>* pElAux = NULL;
+    Universidade* pUnAux = NULL;
+
+    for (pElAux = LTUniversidades.getPrimeiro(); pElAux != NULL; pElAux = pElAux->getProximo())
     {
-        printf("%s. \n", pAux->getNome());
+        pUnAux = pElAux->getInfo();
+        printf("%s. \n", pUnAux->getNome());
     }
 }
 
 void ListaUniversidades::listeUniversidadesInverso()
 {
-    for (ElUniversidade* pAux = pElUniversidadeAtual; pAux != NULL; pAux = pAux->getUniversidadeAnterior())
+    Elemento<Universidade>* pElAux = NULL;
+    Universidade* pUnAux = NULL;
+
+    for (pElAux = LTUniversidades.getAtual(); pElAux != NULL; pElAux = pElAux->getAnterior())
     {
-        printf("%s. \n", pAux->getNome());
+        pUnAux = pElAux->getInfo();
+        printf("%s. \n", pUnAux->getNome());
     }
 }
 
 Universidade* ListaUniversidades::localizar(const char* n)
 {
-    ElUniversidade *pAux = NULL;
+    Elemento<Universidade> *pElAux = NULL;
+    Universidade* pUnAux = NULL;
 
-    for (pAux = pElUniversidadePrim; pAux != NULL; pAux = pAux->getProxUniversidade())
+    for (pElAux = LTUniversidades.getPrimeiro(); pElAux != NULL; pElAux = pElAux->getProximo())
     {
-        if (0 == strcmp(n, pAux->getNome()))
+        pUnAux = pElAux->getInfo();
+        if (0 == strcmp(n, pUnAux->getNome()))
         {
-            return pAux->getUniversidade();
+            return pUnAux;
         }
     }
 
@@ -108,19 +77,21 @@ void ListaUniversidades::graveUniversidades()
         return;
     }
 
-    ElUniversidade* pAuxElUniversidade = NULL;
+    Elemento<Universidade>* pAuxElUniversidade = NULL;
     Universidade* pAuxUniversidade = NULL;
 
-    for (pAuxElUniversidade = pElUniversidadePrim; pAuxElUniversidade != NULL; pAuxElUniversidade = pAuxElUniversidade->getProxUniversidade())
+    for (pAuxElUniversidade = LTUniversidades.getPrimeiro(); pAuxElUniversidade != NULL; pAuxElUniversidade = pAuxElUniversidade->getProximo())
     {
-        pAuxUniversidade = pAuxElUniversidade->getUniversidade();
+        pAuxUniversidade = pAuxElUniversidade->getInfo();
 
         GravadorUniversidades << pAuxUniversidade->getId()   << ""
                               << pAuxUniversidade->getNome() << endl;
     }
 
     GravadorUniversidades.close();
-    cout << "Êxito na gravação. " << endl;
+    cout << "Êxito na gravação das universidades. " << endl;
+    fflush(stdin);
+    getchar();
 }
 
 void ListaUniversidades::recupereUniversidades()
@@ -148,23 +119,18 @@ void ListaUniversidades::recupereUniversidades()
             pAuxUniversidade = new Universidade(-1);
             pAuxUniversidade->setId(id);
             pAuxUniversidade->setNome(nome);
+
+            incluaUniversidade(pAuxUniversidade);
         }
     }
 
     RecuperadorUniversidades.close();
-    cout << "Êxito na recuperação. " << endl;
+    cout << "Êxito na recuperação das universidades. " << endl;
+    fflush(stdin);
+    getchar();
 }
 
 void ListaUniversidades::limpaLista()
 {
-    ElUniversidade *pAux1 = NULL, *pAux2 = NULL;
-
-    for (pAux1 = pElUniversidadePrim; pAux1 != NULL; pAux1 = pAux2)
-    {
-        pAux2 = pAux1->getProxUniversidade();
-        delete (pAux1);
-    }
-
-    pElUniversidadeAtual = NULL;
-    pElUniversidadePrim = NULL;
+    LTUniversidades.limpar();
 }

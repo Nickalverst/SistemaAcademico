@@ -147,7 +147,7 @@ void Principal::MenuExe()
 {
     int op = -1;
 
-    while (op != 5)
+    while (op != 6)
     {
         system("cls");
         cout << "Informe sua opção:       " << endl;
@@ -155,7 +155,8 @@ void Principal::MenuExe()
         cout << "2 - Listar departamentos " << endl;
         cout << "3 - Listar universidades " << endl;
         cout << "4 - Listar alunos        " << endl;
-        cout << "5 - Voltar               " << endl;
+        cout << "5 - Listar pessoas       " << endl;
+        cout << "6 - Voltar               " << endl;
         cin >> op;
 
         switch (op)
@@ -186,7 +187,12 @@ void Principal::MenuExe()
             } break;
         case 5:
             {
-                cout << "FIM" << endl;
+                LPessoas.listePessoas();
+                fflush(stdin);
+                getchar();
+            }
+        case 6:
+            {
             } break;
         default:
             {
@@ -358,6 +364,7 @@ void Principal::CadAluno()
     pAluno->setNome(nomeAluno);
     pAluno->setRA(ra);
     LAlunos.incluaAluno(pAluno);
+    LPessoas.incluaPessoa(static_cast<Pessoa*> (pAluno));
 }
 
 void Principal::RecuperarTudo()

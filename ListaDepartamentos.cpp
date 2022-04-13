@@ -5,91 +5,61 @@
 #include <iostream>
 using namespace std;
 
-ListaDepartamentos::ListaDepartamentos(int nd, const char* n)
+ListaDepartamentos::ListaDepartamentos()
 {
-    numero_dep = nd;
-    cont_dep = 0;
-
-    pElDepartamentoAtual = NULL;
-    pElDepartamentoPrim = NULL;
-
-    strcpy(nome, n);
 }
 
 ListaDepartamentos::~ListaDepartamentos()
 {
-    ElDepartamento *pAux1, *pAux2;
-
-    pAux1 = pElDepartamentoPrim;
-    pAux2 = pAux1;
-
-    while (pAux1 != NULL)
-    {
-        pAux2 = pAux1->getProxDepartamento();
-        delete(pAux1);
-        pAux1 = pAux2;
-    }
-
-    pElDepartamentoAtual = NULL;
-    pElDepartamentoPrim = NULL;
-}
-
-void ListaDepartamentos::setNome(const char* n)
-{
-    strcpy(nome, n);
 }
 
 void ListaDepartamentos::incluaDepartamento(Departamento* pd)
 {
-    if ((cont_dep < numero_dep && pd != NULL) || (numero_dep == -1 && pd != NULL))
+    if (NULL != pd)
     {
-        ElDepartamento* pAux = new ElDepartamento;
-
-        pAux->setDepartamento(pd);
-
-        if (pElDepartamentoPrim == NULL)
-        {
-            pElDepartamentoPrim = pAux;
-            pElDepartamentoAtual = pAux;
-        } else
-        {
-            pElDepartamentoAtual->setProxDepartamento(pAux);
-            pAux->setDepartamentoAnterior(pElDepartamentoAtual);
-            pElDepartamentoAtual = pAux;
-        }
-        cont_dep++;
+        LTDepartamentos.incluaInfo(pd);
     }
     else
     {
-        cout << "Departamento não incluído, limite de " << numero_dep << "excedido. \n" << endl;
+        cout << "Ponteiro nulo. \n" << endl;
     }
 }
 
 void ListaDepartamentos::listeDepartamentos()
 {
-    for (ElDepartamento* pAux = pElDepartamentoPrim; pAux != NULL; pAux = pAux->getProxDepartamento())
+    Elemento<Departamento>* pElAux = NULL;
+    Departamento* pDeAux = NULL;
+
+    for (pElAux = LTDepartamentos.getPrimeiro(); pElAux != NULL; pElAux = pElAux->getProximo())
     {
-        printf("O departamento %s pertence à universidade %s. \n", pAux->getNome(), nome); // pAux->getDepartamento()->getUniversidade()->getNome());
+        pDeAux = pElAux->getInfo();
+        printf("%s. \n", pDeAux->getNome());
     }
 }
 
 void ListaDepartamentos::listeDepartamentosReverso()
 {
-    for (ElDepartamento* pAux = pElDepartamentoAtual; pAux != NULL; pAux = pAux->getDepartamentoAnterior())
+    Elemento<Departamento>* pElAux = NULL;
+    Departamento* pDeAux = NULL;
+
+    for (pElAux = LTDepartamentos.getAtual(); pElAux != NULL; pElAux = pElAux->getAnterior())
     {
-        printf("O departamento %s pertence à universidade %s. \n", pAux->getNome(), nome); // pAux->getDepartamento()->getUniversidade()->getNome());
+        pDeAux = pElAux->getInfo();
+        printf("%s. \n", pDeAux->getNome());
     }
 }
 
-Departamento* ListaDepartamentos::localizar(char* n)
+Departamento* ListaDepartamentos::localizar(const char* n)
 {
-    ElDepartamento *pAux = NULL;
+    Elemento<Departamento>* pElAux = NULL;
+    Departamento* pDeAux = NULL;
 
-    for (pAux = pElDepartamentoPrim; pAux != NULL; pAux = pAux->getProxDepartamento())
+    for (pElAux = LTDepartamentos.getPrimeiro(); pElAux != NULL; pElAux = pElAux->getProximo())
     {
-        if (0 == strcmp(n, pAux->getNome()))
+        pDeAux = pElAux->getInfo();
+        if (0 == strcmp(n, pDeAux->getNome()))
         {
-            return pAux->getDepartamento();
+            return pDeAux;
         }
     }
 
@@ -108,19 +78,21 @@ void ListaDepartamentos::graveDepartamentos()
         return;
     }
 
-    ElDepartamento* pAuxElDepartamento = NULL;
+    Elemento<Departamento>* pAuxElDepartamento = NULL;
     Departamento* pAuxDepartamento = NULL;
 
-    for (pAuxElDepartamento = pElDepartamentoPrim; pAuxElDepartamento != NULL; pAuxElDepartamento = pAuxElDepartamento->getProxDepartamento())
+    for (pAuxElDepartamento = LTDepartamentos.getPrimeiro(); pAuxElDepartamento != NULL; pAuxElDepartamento = pAuxElDepartamento->getProximo())
     {
-        pAuxDepartamento = pAuxElDepartamento->getDepartamento();
+        pAuxDepartamento = pAuxElDepartamento->getInfo();
 
         GravadorDepartamentos << pAuxDepartamento->getId()   << ""
                               << pAuxDepartamento->getNome() << endl;
     }
 
     GravadorDepartamentos.close();
-    cout << "Êxito na gravação. " << endl;
+    cout << "Êxito na gravação dos departamentos. " << endl;
+    fflush(stdin);
+    getchar();
 }
 
 void ListaDepartamentos::recupereDepartamentos()
@@ -148,23 +120,18 @@ void ListaDepartamentos::recupereDepartamentos()
             pAuxDepartamento = new Departamento(-1);
             pAuxDepartamento->setId(id);
             pAuxDepartamento->setNome(nome);
+
+            incluaDepartamento(pAuxDepartamento);
         }
     }
 
     RecuperadorDepartamentos.close();
-    cout << "Êxito na recuperação. " << endl;
+    cout << "Êxito na recuperação dos departamentos. " << endl;
+    fflush(stdin);
+    getchar();
 }
 
 void ListaDepartamentos::limpaLista()
 {
-    ElDepartamento *pAux1 = NULL, *pAux2 = NULL;
-
-    for (pAux1 = pElDepartamentoPrim; pAux1 != NULL; pAux1 = pAux2)
-    {
-        pAux2 = pAux1->getProxDepartamento();
-        delete (pAux1);
-    }
-
-    pElDepartamentoAtual = NULL;
-    pElDepartamentoPrim = NULL;
+    LTDepartamentos.limpar();
 }

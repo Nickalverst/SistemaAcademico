@@ -1,5 +1,4 @@
 #include "ListaAlunos.h"
-#include "Aluno.h"
 #include <stdlib.h>
 #include <string.h>
 #include <fstream>
@@ -8,12 +7,10 @@ using namespace std;
 
 ListaAlunos::ListaAlunos()
 {
-
 }
 
 ListaAlunos::~ListaAlunos()
 {
-
 }
 
 void ListaAlunos::incluaAluno(Aluno* pa)
@@ -75,7 +72,9 @@ void ListaAlunos::graveAlunos()
     }
 
     GravadorAlunos.close();
-    cout << "Êxito na gravação. " << endl;
+    cout << "Êxito na gravação dos alunos. " << endl;
+    fflush(stdin);
+    getchar();
 }
 
 void ListaAlunos::recupereAlunos()
@@ -111,7 +110,9 @@ void ListaAlunos::recupereAlunos()
     }
 
     RecuperadorAlunos.close();
-    cout << "Êxito na recuperação. " << endl;
+    cout << "Êxito na recuperação dos alunos. " << endl;
+    fflush(stdin);
+    getchar();
 }
 
 void ListaAlunos::limpaLista()

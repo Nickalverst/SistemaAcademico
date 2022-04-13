@@ -115,3 +115,8 @@ void Pessoa::setId(int i)
 {
     id = i;
 }
+
+void Pessoa::informaProventos()
+{
+    cout << "Nenhuma informação sobre proventos de " << nome << "." << endl;
+}

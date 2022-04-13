@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-ListaDisciplinas::ListaDisciplinas(int nd, const char* n)
+ListaDisciplinas::ListaDisciplinas()
 {
 }
 
@@ -29,6 +29,7 @@ void ListaDisciplinas::listeDisciplinas()
 {
     Elemento<Disciplina>* pElAux = NULL;
     Disciplina* pAlAux = NULL;
+
     for (pElAux = LTDisciplinas.getPrimeiro(); pElAux != NULL; pElAux = pElAux->getProximo())
     {
         pAlAux = pElAux->getInfo();
@@ -72,7 +73,9 @@ void ListaDisciplinas::graveDisciplinas()
     }
 
     GravadorDisciplinas.close();
-    cout << "Êxito na gravação. " << endl;
+    cout << "Êxito na gravação das disciplinas. " << endl;
+    fflush(stdin);
+    getchar();
 }
 
 void ListaDisciplinas::recupereDisciplinas()
@@ -100,20 +103,18 @@ void ListaDisciplinas::recupereDisciplinas()
             pAuxDisciplina = new Disciplina(-1);
             pAuxDisciplina->setId(id);
             pAuxDisciplina->setNome(nome);
+
+            incluaDisciplina(pAuxDisciplina);
         }
     }
 
     RecuperadorDisciplinas.close();
-    cout << "Êxito na recuperação. " << endl;
+    cout << "Êxito na recuperação das disciplinas. " << endl;
+    fflush(stdin);
+    getchar();
 }
 
 void ListaDisciplinas::limpaLista()
 {
-    Elemento<Disciplina> *pAux1 = NULL, *pAux2 = NULL;
-
-    for (pAux1 = LTDisciplinas.getPrimeiro(); pAux1 != NULL; pAux1 = pAux2)
-    {
-        pAux2 = pAux1->getProximo();
-        delete (pAux1);
-    }
+    LTDisciplinas.limpar();
 }

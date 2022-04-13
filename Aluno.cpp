@@ -2,8 +2,14 @@
 
 Aluno::Aluno(int i) : Pessoa(id)
 {
-    id = -1;
+    id = i;
 	RA = 0;
+}
+
+Aluno::Aluno() : Pessoa()
+{
+    id = -1;
+    RA = 0;
 }
 
 Aluno::~Aluno()

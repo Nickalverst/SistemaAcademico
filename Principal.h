@@ -7,6 +7,7 @@
 #include "ListaUniversidades.h"
 #include "ListaDisciplinas.h"
 #include "ListaAlunos.h"
+#include "ListaPessoas.h"
 #include "MinhaString.h"
 
 class Principal
@@ -21,6 +22,7 @@ class Principal
         ListaDepartamentos LDepartamentos;
         ListaDisciplinas LDisciplinas;
         ListaAlunos LAlunos;
+        ListaPessoas LPessoas;
 
         int diaAtual, mesAtual, anoAtual;
 

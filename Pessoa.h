@@ -28,4 +28,6 @@ public:
 
     void setNome(char nNome[30]);
     void setDataDeNascimento(int nDia, int nMes, int nAno);
+
+    virtual void informaProventos();
 };

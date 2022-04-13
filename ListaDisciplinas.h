@@ -9,7 +9,7 @@ class ListaDisciplinas
         Lista<Disciplina> LTDisciplinas;
 
     public:
-        ListaDisciplinas(int nd = 1000, const char* n = "");
+        ListaDisciplinas();
         ~ListaDisciplinas();
 
         void incluaDisciplina(Disciplina* pd);

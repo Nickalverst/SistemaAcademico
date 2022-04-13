@@ -15,12 +15,39 @@ Professor::Professor():
     {
         pUnivFiliado = NULL;
         pDepFiliado = NULL;
+        salario = 0.0;
+        bolsa_projeto = 0.0;
     }
 
 Professor::~Professor()
 {
     pUnivFiliado = NULL;
     pDepFiliado = NULL;
+}
+
+void Professor::setSalario(float s)
+{
+    salario = s;
+}
+
+float Professor::getSalario()
+{
+    return salario;
+}
+
+void Professor::setBolsaProjeto(float s)
+{
+    bolsa_projeto = s;
+}
+
+float Professor::getBolsaProjeto()
+{
+    return bolsa_projeto;
+}
+
+void Professor::informaProventos()
+{
+    cout << "O valor dos proventos do professor " << nome << " é " << (salario + bolsa_projeto) << "." << endl;
 }
 
 void Professor::OndeTrabalho()

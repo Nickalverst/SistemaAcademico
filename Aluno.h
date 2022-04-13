@@ -8,6 +8,7 @@ private:
 	Disciplina* pDiscAssociada;
 public:
 	Aluno(int i);
+	Aluno();
 	~Aluno();
 	void setRA(int ra);
 	int getRA();

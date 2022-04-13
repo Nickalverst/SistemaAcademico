@@ -1,30 +1,25 @@
 #pragma once
 
-#include "ElDepartamento.h"
 #include "Departamento.h"
+#include "Lista.h"
 
 class ListaDepartamentos
 {
     private:
-        int cont_dep;
-        int numero_dep;
-        char nome[150];
-
-        ElDepartamento* pElDepartamentoPrim;
-        ElDepartamento* pElDepartamentoAtual;
+        Lista<Departamento> LTDepartamentos;
 
     public:
-        ListaDepartamentos(int nd = 1000, const char* n = "");
+        ListaDepartamentos();
         ~ListaDepartamentos();
 
-        void setNome(const char* n);
-
         void incluaDepartamento(Departamento* pd);
+        void limpaLista();
+
         void listeDepartamentos();
         void listeDepartamentosReverso();
-        Departamento* localizar (char* n);
 
-        void recupereDepartamentos();
+        Departamento* localizar (const char* n);
+
         void graveDepartamentos();
-        void limpaLista();
+        void recupereDepartamentos();
 };
