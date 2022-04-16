@@ -1,6 +1,13 @@
+/* CÓDIGO LEGADO
+*
+* Esta classe foi desenvolvida objetivando o aprendizado de sobrecar-
+* ga de métodos e operadores e da palavra-chave const e não faz parte
+* da versão atual do Sistema Acadêmico, visto que a classe String, da
+* Standard Template Library (STL) agora desempenha seu papel.
+*
+*/
+
 #include "MinhaString.h"
-#include <string.h>
-#include <stdlib.h>
 
 MinhaString::MinhaString(const char* s)
 {
@@ -28,7 +35,7 @@ void MinhaString::setString(const char* s)
 
     tamanho = strlen(s);
 	pStr = new char[tamanho + 1];
-	strcpy(pStr, s);
+	strcpy_s(pStr, tamanho + 1, s);
 }
 
 void MinhaString::operator = (const char* s)

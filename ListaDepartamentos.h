@@ -1,12 +1,14 @@
 #pragma once
 
 #include "Departamento.h"
-#include "Lista.h"
+#include <string>
+#include <vector>
+using namespace std;
 
 class ListaDepartamentos
 {
     private:
-        Lista<Departamento> LTDepartamentos;
+        vector<Departamento*> LTDepartamentos;
 
     public:
         ListaDepartamentos();
@@ -18,7 +20,7 @@ class ListaDepartamentos
         void listeDepartamentos();
         void listeDepartamentosReverso();
 
-        Departamento* localizar (const char* n);
+        Departamento* localizar (string n);
 
         void graveDepartamentos();
         void recupereDepartamentos();

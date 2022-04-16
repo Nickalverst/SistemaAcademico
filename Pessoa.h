@@ -1,6 +1,9 @@
 #pragma once
 #include "Universidade.h"
 #include "Departamento.h"
+#include <string>
+using namespace std;
+
 class Pessoa
 {
 protected:
@@ -9,24 +12,29 @@ protected:
     int diaNasc;
     int mesNasc;
     int anoNasc;
-    char nome[30];
+    string nome;
+    static int cont;
 
 public:
-    Pessoa(int i, int nDia = 0, int nMes = 0, int nAno = 0, const char* nNome = "");
+    Pessoa(int i, int nDia = 0, int nMes = 0, int nAno = 0, const string nNome = "");
     Pessoa();
-    void inicializa (int nDia, int nMes, int nAno, const char* nome = "");
+    virtual ~Pessoa();
+    void inicializa (int nDia, int nMes, int nAno, const string nome = "");
 
     void calculaIdade(int diaAt, int mesAt, int anoAt);
     void imprimeIdade();
-    void calculaImprimeIdade(int diaAT, int mesAT, int anoAT);
 
-    int getIdade();
-    char* getNome();
+    void calculaImprimeIdade(int diaAT, int mesAT, int anoAT);
+    int getIdade() const;
+
+    void setNome(string nNome);
+    string getNome();
 
     void setId(int id);
-    int getId();
+    int getId() const;
 
-    void setNome(char nNome[30]);
+    static int getCont();
+
     void setDataDeNascimento(int nDia, int nMes, int nAno);
 
     virtual void informaProventos();

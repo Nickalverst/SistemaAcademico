@@ -1,15 +1,15 @@
 #include "Departamento.h"
 #include "Disciplina.h"
 
-Disciplina::Disciplina(int i, const char* n, const char* ac, int na):
+Disciplina::Disciplina(int i, string n, string ac, int na):
 ObjLAlunos()
 {
     id = i;
     pDepAssociado = NULL;
 
     numero_alunos = na;
-    strcpy(nome, n);
-    strcpy(area_conhecimento, ac);
+    nome = n;
+    area_conhecimento = ac;
 }
 
 Disciplina::~Disciplina()
@@ -23,7 +23,7 @@ void Disciplina::setNumeroAlunos(int na)
     numero_alunos = na;
 }
 
-int Disciplina::getNumeroAlunos()
+int Disciplina::getNumeroAlunos() const
 {
     return numero_alunos;
 }
@@ -33,17 +33,17 @@ void Disciplina::setId(int n)
     id = n;
 }
 
-int Disciplina::getId()
+int Disciplina::getId() const
 {
     return id;
 }
 
-void Disciplina::setNome(const char* n)
+void Disciplina::setNome(string n)
 {
-    strcpy(nome, n);
+    nome = n;
 }
 
-char* Disciplina::getNome()
+string Disciplina::getNome() const
 {
     return nome;
 }
@@ -56,7 +56,7 @@ void Disciplina::setDepartamento(Departamento* pdpto)
     pdpto->incluaDisciplina(this);
 }
 
-Departamento* Disciplina::getDepartamento()
+Departamento* Disciplina::getDepartamento() const
 {
     return pDepAssociado;
 }

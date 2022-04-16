@@ -3,23 +3,23 @@
 #include <iostream>
 using namespace std;
 
-Universidade::Universidade(int i, const char* n):
+Universidade::Universidade(int i, const string n):
 ObjLDepartamentos()
 {
     id = i;
-    strcpy(nome, n);
+    nome = n;
 }
 
 Universidade::~Universidade()
 {
 }
 
-void Universidade::setNome(const char* n)
+void Universidade::setNome(const string n)
 {
-    strcpy(nome, n);
+    nome = n;
 }
 
-char* Universidade::getNome()
+string Universidade::getNome()
 {
     return nome;
 }
@@ -41,5 +41,5 @@ void Universidade::incluaDepartamento(Departamento* pdep)
 
 void Universidade::listeDepartamentos()
 {
-    //ObjLDepartamentos.listeInfos();
+    ObjLDepartamentos.listeDepartamentos();
 }

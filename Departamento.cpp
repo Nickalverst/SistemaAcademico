@@ -3,15 +3,12 @@
 #include "Disciplina.h"
 #include "ListaDisciplinas.h"
 
-#include <string.h>
-#include <stdio.h>
-#include <iostream>
-using namespace std;
 
-Departamento::Departamento(int i, const char* n)
+
+Departamento::Departamento(int i, string n)
 {
     id = i;
-    strcpy(nome, n);
+    nome = n;
     //ObjLDisciplinas();
 }
 
@@ -33,12 +30,12 @@ int Departamento::getNumeroDisciplinas()
     return numero_disc;
 }
 
-void Departamento::setNome(const char* n)
+void Departamento::setNome(string n)
 {
-    strcpy(nome, n);
+    nome = n;
 }
 
-char* Departamento::getNome()
+string Departamento::getNome()
 {
     return nome;
 }

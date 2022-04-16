@@ -17,7 +17,7 @@ void ListaDepartamentos::incluaDepartamento(Departamento* pd)
 {
     if (NULL != pd)
     {
-        LTDepartamentos.incluaInfo(pd);
+        LTDepartamentos.push_back(pd);
     }
     else
     {
@@ -27,39 +27,27 @@ void ListaDepartamentos::incluaDepartamento(Departamento* pd)
 
 void ListaDepartamentos::listeDepartamentos()
 {
-    Elemento<Departamento>* pElAux = NULL;
-    Departamento* pDeAux = NULL;
-
-    for (pElAux = LTDepartamentos.getPrimeiro(); pElAux != NULL; pElAux = pElAux->getProximo())
+    for (int i = 0; i < (int)LTDepartamentos.size(); i++)
     {
-        pDeAux = pElAux->getInfo();
-        printf("%s. \n", pDeAux->getNome());
+        cout << LTDepartamentos[i]->getNome() << endl;
     }
 }
 
 void ListaDepartamentos::listeDepartamentosReverso()
 {
-    Elemento<Departamento>* pElAux = NULL;
-    Departamento* pDeAux = NULL;
-
-    for (pElAux = LTDepartamentos.getAtual(); pElAux != NULL; pElAux = pElAux->getAnterior())
+    for (int i = LTDepartamentos.size(); i > 0; i--)
     {
-        pDeAux = pElAux->getInfo();
-        printf("%s. \n", pDeAux->getNome());
+        cout << LTDepartamentos[i]->getNome() << endl;
     }
 }
 
-Departamento* ListaDepartamentos::localizar(const char* n)
+Departamento* ListaDepartamentos::localizar(string n)
 {
-    Elemento<Departamento>* pElAux = NULL;
-    Departamento* pDeAux = NULL;
-
-    for (pElAux = LTDepartamentos.getPrimeiro(); pElAux != NULL; pElAux = pElAux->getProximo())
+    for (int i = 0; i < (int)LTDepartamentos.size(); i++)
     {
-        pDeAux = pElAux->getInfo();
-        if (0 == strcmp(n, pDeAux->getNome()))
+        if (LTDepartamentos[i]->getNome() == n)
         {
-            return pDeAux;
+            return LTDepartamentos[i];
         }
     }
 
@@ -78,15 +66,10 @@ void ListaDepartamentos::graveDepartamentos()
         return;
     }
 
-    Elemento<Departamento>* pAuxElDepartamento = NULL;
-    Departamento* pAuxDepartamento = NULL;
-
-    for (pAuxElDepartamento = LTDepartamentos.getPrimeiro(); pAuxElDepartamento != NULL; pAuxElDepartamento = pAuxElDepartamento->getProximo())
+    for (int i = 0; i < (int)LTDepartamentos.size(); i++)
     {
-        pAuxDepartamento = pAuxElDepartamento->getInfo();
-
-        GravadorDepartamentos << pAuxDepartamento->getId()   << ""
-                              << pAuxDepartamento->getNome() << endl;
+        GravadorDepartamentos << LTDepartamentos[i]->getId()   << ""
+                              << LTDepartamentos[i]->getNome() << endl;
     }
 
     GravadorDepartamentos.close();
@@ -112,10 +95,10 @@ void ListaDepartamentos::recupereDepartamentos()
     {
         Departamento* pAuxDepartamento = NULL;
         int id;
-        char nome[150];
+        string nome;
 
         RecuperadorDepartamentos >> id >> nome;
-        if (0 != strcmp(nome, ""))
+        if (nome != "")
         {
             pAuxDepartamento = new Departamento(-1);
             pAuxDepartamento->setId(id);
@@ -133,5 +116,9 @@ void ListaDepartamentos::recupereDepartamentos()
 
 void ListaDepartamentos::limpaLista()
 {
-    LTDepartamentos.limpar();
+    for (int i = 0; i < (int)LTDepartamentos.size(); i++)
+    {
+        delete LTDepartamentos[i];
+    }
+    LTDepartamentos.clear();
 }

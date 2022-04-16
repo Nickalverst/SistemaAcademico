@@ -1,5 +1,4 @@
 #include "ListaPessoas.h"
-#include <string.h>
 #include <stdlib.h>
 #include <fstream>
 #include <iostream>
@@ -11,13 +10,14 @@ ListaPessoas::ListaPessoas()
 
 ListaPessoas::~ListaPessoas()
 {
+    limpaLista();
 }
 
 void ListaPessoas::incluaPessoa(Pessoa* pe)
 {
     if (NULL != pe)
     {
-        LTPessoas.incluaInfo(pe);
+        LTPessoas.push_back(pe);
     }
     else
     {
@@ -27,39 +27,27 @@ void ListaPessoas::incluaPessoa(Pessoa* pe)
 
 void ListaPessoas::listePessoas()
 {
-    Elemento<Pessoa>* pElAux = NULL;
-    Pessoa* pPeAux = NULL;
-
-    for (pElAux = LTPessoas.getPrimeiro(); pElAux != NULL; pElAux = pElAux->getProximo())
+    for (int i = 0; i < (int)LTPessoas.size(); i++)
     {
-        pPeAux = pElAux->getInfo();
-        printf("%s. \n", pPeAux->getNome());
+        cout << LTPessoas[i]->getNome() << endl;
     }
 }
 
 void ListaPessoas::listePessoasInverso()
 {
-    Elemento<Pessoa>* pElAux = NULL;
-    Pessoa* pPeAux = NULL;
-
-    for (pElAux = LTPessoas.getAtual(); pElAux != NULL; pElAux = pElAux->getAnterior())
+    for (int i = (int)LTPessoas.size(); i > 0; i--)
     {
-        pPeAux = pElAux->getInfo();
-        printf("%s. \n", pPeAux->getNome());
+        cout << LTPessoas[i]->getNome() << endl;
     }
 }
 
-Pessoa* ListaPessoas::localizar(const char* n)
+Pessoa* ListaPessoas::localizar(const string n)
 {
-    Elemento<Pessoa>* pElAux = NULL;
-    Pessoa* pDeAux = NULL;
-
-    for (pElAux = LTPessoas.getPrimeiro(); pElAux != NULL; pElAux = pElAux->getProximo())
+    for (int i = 0; i < (int)LTPessoas.size(); i++)
     {
-        pDeAux = pElAux->getInfo();
-        if (0 == strcmp(n, pDeAux->getNome()))
+        if (n == LTPessoas[i]->getNome())
         {
-            return pDeAux;
+            return LTPessoas[i];
         }
     }
 
@@ -68,5 +56,9 @@ Pessoa* ListaPessoas::localizar(const char* n)
 
 void ListaPessoas::limpaLista()
 {
-    LTPessoas.limpar();
+    for (int i = 0; i < (int)LTPessoas.size(); i++)
+    {
+        delete LTPessoas[i];
+    }
+    LTPessoas.clear();
 }

@@ -1,5 +1,5 @@
 #include "ListaDisciplinas.h"
-#include <string.h>
+
 #include <fstream>
 #include <iostream>
 using namespace std;
@@ -17,7 +17,7 @@ void ListaDisciplinas::incluaDisciplina(Disciplina* pd)
 {
     if (pd != NULL)
     {
-        LTDisciplinas.incluaInfo(pd);
+        LTDisciplinas.push_back(pd);
     }
     else
     {
@@ -27,24 +27,17 @@ void ListaDisciplinas::incluaDisciplina(Disciplina* pd)
 
 void ListaDisciplinas::listeDisciplinas()
 {
-    Elemento<Disciplina>* pElAux = NULL;
-    Disciplina* pAlAux = NULL;
-
-    for (pElAux = LTDisciplinas.getPrimeiro(); pElAux != NULL; pElAux = pElAux->getProximo())
+    for (int i = 0; i < (int)LTDisciplinas.size(); i++)
     {
-        pAlAux = pElAux->getInfo();
-        cout << "Disciplina " << pAlAux->getNome() << " está cadastrada na universidade. " << endl;
+        cout << LTDisciplinas[i]->getNome() << endl;
     }
 }
 
 void ListaDisciplinas::listeDisciplinasReverso()
 {
-    Elemento<Disciplina>* pElAux = NULL;
-    Disciplina* pAlAux = NULL;
-    for (pElAux = LTDisciplinas.getAtual(); pElAux != NULL; pElAux = pElAux->getAnterior())
+    for (int i = (int)LTDisciplinas.size(); i > 0 ; i--)
     {
-        pAlAux = pElAux->getInfo();
-        cout << "Disciplina " << pAlAux->getNome() << " está cadastrada na universidade. " << endl;
+        cout << LTDisciplinas[i]->getNome() << endl;
     }
 }
 
@@ -61,15 +54,10 @@ void ListaDisciplinas::graveDisciplinas()
         return;
     }
 
-    Elemento<Disciplina>* pAuxElDisciplina = NULL;
-    Disciplina* pAuxDisciplina = NULL;
-
-    for (pAuxElDisciplina = LTDisciplinas.getPrimeiro(); pAuxElDisciplina != NULL; pAuxElDisciplina = pAuxElDisciplina->getProximo())
+    for (int i = 0; i < (int)LTDisciplinas.size(); i++)
     {
-        pAuxDisciplina = pAuxElDisciplina->getInfo();
-
-        GravadorDisciplinas << pAuxDisciplina->getId()   << ""
-                              << pAuxDisciplina->getNome() << endl;
+        GravadorDisciplinas << LTDisciplinas[i]->getId()   << ""
+                            << LTDisciplinas[i]->getNome() << endl;
     }
 
     GravadorDisciplinas.close();
@@ -95,10 +83,10 @@ void ListaDisciplinas::recupereDisciplinas()
     {
         Disciplina* pAuxDisciplina = NULL;
         int id;
-        char nome[150];
+        string nome;
 
         RecuperadorDisciplinas >> id >> nome;
-        if (0 != strcmp(nome, ""))
+        if (nome != "")
         {
             pAuxDisciplina = new Disciplina(-1);
             pAuxDisciplina->setId(id);
@@ -116,5 +104,9 @@ void ListaDisciplinas::recupereDisciplinas()
 
 void ListaDisciplinas::limpaLista()
 {
-    LTDisciplinas.limpar();
+    for (int i = 0; i < (int)LTDisciplinas.size(); i++)
+    {
+        delete LTDisciplinas[i];
+    }
+    LTDisciplinas.clear();
 }

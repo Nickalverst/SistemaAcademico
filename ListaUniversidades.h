@@ -1,12 +1,14 @@
 #pragma once
 
 #include "Universidade.h"
-#include "Lista.h"
+#include <string>
+#include <vector>
+using namespace std;
 
 class ListaUniversidades
 {
     private:
-        Lista<Universidade> LTUniversidades;
+        vector<Universidade*> LTUniversidades;
     public:
         ListaUniversidades();
         ~ListaUniversidades();
@@ -17,9 +19,8 @@ class ListaUniversidades
         void listeUniversidades();
         void listeUniversidadesInverso();
 
-        Universidade* localizar (const char* n);
+        Universidade* localizar (const string n);
 
         void graveUniversidades();
         void recupereUniversidades();
-
 };

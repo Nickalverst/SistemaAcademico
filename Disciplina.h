@@ -1,6 +1,9 @@
 #pragma once
+
 #include <stdio.h>
-#include <string.h>
+#include <string>
+#include <vector>
+using namespace std;
 
 #include "ListaAlunos.h"
 
@@ -12,28 +15,28 @@ class Disciplina
         int id;
         int cont_alunos;
         int numero_alunos;
-        char nome[150];
-        char area_conhecimento[150];
+        string nome;
+        string area_conhecimento;
 
         Departamento* pDepAssociado;
 
         ListaAlunos ObjLAlunos;
 
     public:
-        Disciplina(int i = -1, const char* n = "", const char* ac = "", int na = 45);
+        Disciplina(int i = -1, string n = "", string ac = "", int na = 45);
         ~Disciplina();
 
         void setNumeroAlunos(int na);
-        int getNumeroAlunos();
+        int getNumeroAlunos() const;
 
         void setId(int n);
-        int getId();
+        int getId() const;
 
-        void setNome(const char* n);
-        char* getNome();
+        void setNome(string n);
+        string getNome() const;
 
         void setDepartamento(Departamento* pdpto);
-        Departamento* getDepartamento();
+        Departamento* getDepartamento() const;
 
         void incluirAluno(Aluno* al); // Ordem alfabética
         ///void removerAluno(Aluno* al);

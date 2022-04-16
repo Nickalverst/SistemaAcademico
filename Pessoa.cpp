@@ -6,11 +6,14 @@
 using std::cout;
 using std::endl;
 
-Pessoa::Pessoa(int i, int nDia, int nMes, int nAno, const char* nNome)
+int Pessoa::cont = 0;
+
+Pessoa::Pessoa(int i, int nDia, int nMes, int nAno, const string nNome)
 {
     id = i;
+    cont++;
 
-    strcpy(nome, nNome);
+    nome = nNome;
 
     if (nDia > 0 && nDia <= 31)
         diaNasc = nDia;
@@ -26,13 +29,24 @@ Pessoa::Pessoa(int i, int nDia, int nMes, int nAno, const char* nNome)
 
 Pessoa::Pessoa() // O C++ sempre cria uma construtora sem parâmetros
 {
+    cont++;
     inicializa(0, 0, 0);
 }
 
-void Pessoa::inicializa(int nDia, int nMes, int nAno, const char* nNome)
+Pessoa::~Pessoa()
+{
+    cont--;
+}
+
+int Pessoa::getCont()
+{
+    return cont;
+}
+
+void Pessoa::inicializa(int nDia, int nMes, int nAno, const string nNome)
 {
     id = -1;
-    strcpy(nome, nNome);
+    nome = nNome;
 
     if (nDia > 0 && nDia <= 31)
         diaNasc = nDia;
@@ -81,19 +95,19 @@ void Pessoa::calculaImprimeIdade(int diaAT, int mesAT, int anoAT)
     imprimeIdade();
 }
 
-int Pessoa::getIdade()
+int Pessoa::getIdade() const
 {
     return idade;
 }
 
-char* Pessoa::getNome()
+string Pessoa::getNome()
 {
     return nome;
 }
 
-void Pessoa::setNome(char nNome[])
+void Pessoa::setNome(string nNome)
 {
-    strcpy(nome, nNome);
+    nome = nNome;
 }
 
 void Pessoa::setDataDeNascimento(int nDia, int nMes, int nAno)
@@ -106,7 +120,7 @@ void Pessoa::setDataDeNascimento(int nDia, int nMes, int nAno)
     anoNasc = nAno;
 }
 
-int Pessoa::getId()
+int Pessoa::getId() const
 {
     return id;
 }

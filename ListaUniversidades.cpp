@@ -1,5 +1,5 @@
 #include "ListaUniversidades.h"
-#include <string.h>
+
 #include <fstream>
 #include <iostream>
 using namespace std;
@@ -10,13 +10,14 @@ ListaUniversidades::ListaUniversidades()
 
 ListaUniversidades::~ListaUniversidades()
 {
+    limpaLista();
 }
 
 void ListaUniversidades::incluaUniversidade(Universidade* pd)
 {
     if (NULL != pd)
     {
-        LTUniversidades.incluaInfo(pd);
+        LTUniversidades.push_back(pd);
     } else
     {
         cout << "Ponteiro nulo. \n" << endl;
@@ -25,39 +26,27 @@ void ListaUniversidades::incluaUniversidade(Universidade* pd)
 
 void ListaUniversidades::listeUniversidades()
 {
-    Elemento<Universidade>* pElAux = NULL;
-    Universidade* pUnAux = NULL;
-
-    for (pElAux = LTUniversidades.getPrimeiro(); pElAux != NULL; pElAux = pElAux->getProximo())
+    for (int i = 0; i < (int)LTUniversidades.size(); i++)
     {
-        pUnAux = pElAux->getInfo();
-        printf("%s. \n", pUnAux->getNome());
+        cout << LTUniversidades[i]->getNome() << endl;
     }
 }
 
 void ListaUniversidades::listeUniversidadesInverso()
 {
-    Elemento<Universidade>* pElAux = NULL;
-    Universidade* pUnAux = NULL;
-
-    for (pElAux = LTUniversidades.getAtual(); pElAux != NULL; pElAux = pElAux->getAnterior())
+    for (int i = (int)LTUniversidades.size(); i > 0; i--)
     {
-        pUnAux = pElAux->getInfo();
-        printf("%s. \n", pUnAux->getNome());
+        cout << LTUniversidades[i]->getNome() << endl;
     }
 }
 
-Universidade* ListaUniversidades::localizar(const char* n)
+Universidade* ListaUniversidades::localizar(const string n)
 {
-    Elemento<Universidade> *pElAux = NULL;
-    Universidade* pUnAux = NULL;
-
-    for (pElAux = LTUniversidades.getPrimeiro(); pElAux != NULL; pElAux = pElAux->getProximo())
+    for (int i = 0; i < (int)LTUniversidades.size(); i++)
     {
-        pUnAux = pElAux->getInfo();
-        if (0 == strcmp(n, pUnAux->getNome()))
+        if (n == LTUniversidades[i]->getNome())
         {
-            return pUnAux;
+            return LTUniversidades[i];
         }
     }
 
@@ -77,15 +66,10 @@ void ListaUniversidades::graveUniversidades()
         return;
     }
 
-    Elemento<Universidade>* pAuxElUniversidade = NULL;
-    Universidade* pAuxUniversidade = NULL;
-
-    for (pAuxElUniversidade = LTUniversidades.getPrimeiro(); pAuxElUniversidade != NULL; pAuxElUniversidade = pAuxElUniversidade->getProximo())
+    for (int i = 0; i < (int)LTUniversidades.size(); i++)
     {
-        pAuxUniversidade = pAuxElUniversidade->getInfo();
-
-        GravadorUniversidades << pAuxUniversidade->getId()   << ""
-                              << pAuxUniversidade->getNome() << endl;
+        GravadorUniversidades << LTUniversidades[i]->getId()   << ""
+                              << LTUniversidades[i]->getNome() << endl;
     }
 
     GravadorUniversidades.close();
@@ -111,10 +95,10 @@ void ListaUniversidades::recupereUniversidades()
     {
         Universidade* pAuxUniversidade = NULL;
         int id;
-        char nome[150];
+        string nome;
 
         RecuperadorUniversidades >> id >> nome;
-        if (0 != strcmp(nome, ""))
+        if (nome != "")
         {
             pAuxUniversidade = new Universidade(-1);
             pAuxUniversidade->setId(id);
@@ -132,5 +116,9 @@ void ListaUniversidades::recupereUniversidades()
 
 void ListaUniversidades::limpaLista()
 {
-    LTUniversidades.limpar();
+    for (int i = 0; i < (int)LTUniversidades.size(); i++)
+    {
+        delete LTUniversidades[i];
+    }
+    LTUniversidades.clear();
 }

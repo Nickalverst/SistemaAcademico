@@ -1,5 +1,4 @@
 #include "Principal.h"
-#include "Universidade.h"
 #include "ListaAlunos.h"
 #include "ListaDepartamentos.h"
 #include "ListaDisciplinas.h"
@@ -9,14 +8,16 @@ using namespace std;
 
 Principal::Principal():
 // Geradores de identificação
-cont_idAluno (0),
-cont_idDepart(0),
 cont_idDisc  (0),
+cont_idDepart(0),
+cont_idAluno (0),
 cont_idUniv  (0)
 {
     // Obtenção da data atual
     time_t t = time(NULL);
-    struct tm tm = *localtime(&t);
+    struct tm tm;
+        
+    localtime_s(&tm, &t);
 
     // Determinação da data atual
     diaAtual = tm.tm_mday;
@@ -147,7 +148,7 @@ void Principal::MenuExe()
 {
     int op = -1;
 
-    while (op != 6)
+    while (op != 7)
     {
         system("cls");
         cout << "Informe sua opção:       " << endl;
@@ -156,7 +157,8 @@ void Principal::MenuExe()
         cout << "3 - Listar universidades " << endl;
         cout << "4 - Listar alunos        " << endl;
         cout << "5 - Listar pessoas       " << endl;
-        cout << "6 - Voltar               " << endl;
+        cout << "6 - Número de pessoas    " << endl;
+        cout << "7 - Voltar               " << endl;
         cin >> op;
 
         switch (op)
@@ -190,8 +192,14 @@ void Principal::MenuExe()
                 LPessoas.listePessoas();
                 fflush(stdin);
                 getchar();
-            }
+            } break;
         case 6:
+            {
+                cout << "Há " << Pessoa::getCont() << " pessoas cadastradas no sistema" << endl;
+                fflush(stdin);
+                getchar();
+            } break;
+        case 7:
             {
             } break;
         default:

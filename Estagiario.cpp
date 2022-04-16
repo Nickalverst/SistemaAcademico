@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-Estagiario::Estagiario(int diaNa, int mesNa, int anoNa, const char* n):
+Estagiario::Estagiario(int diaNa, int mesNa, int anoNa, const string n):
 Aluno()
 {
     diaNasc = diaNa;

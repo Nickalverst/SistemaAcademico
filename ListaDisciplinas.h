@@ -2,11 +2,14 @@
 
 #include "Disciplina.h"
 #include "Lista.h"
+#include <string>
+#include <vector>
+using namespace std;
 
 class ListaDisciplinas
 {
     private:
-        Lista<Disciplina> LTDisciplinas;
+        vector<Disciplina*> LTDisciplinas;
 
     public:
         ListaDisciplinas();

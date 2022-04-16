@@ -1,12 +1,14 @@
 #pragma once
 
 #include "Pessoa.h"
-#include "Lista.h"
+#include <vector>
+#include <string>
+using namespace std;
 
 class ListaPessoas
 {
     private:
-        Lista<Pessoa> LTPessoas;
+        vector<Pessoa*> LTPessoas;
 
     public:
         ListaPessoas();
@@ -15,7 +17,7 @@ class ListaPessoas
         void incluaPessoa(Pessoa* pa);
         void limpaLista();
 
-        Pessoa* localizar (const char* n);
+        Pessoa* localizar (const string n);
 
         void listePessoas();
         void listePessoasInverso();

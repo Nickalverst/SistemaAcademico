@@ -9,7 +9,7 @@ private:
 public:
 	Aluno(int i);
 	Aluno();
-	~Aluno();
+	virtual ~Aluno();
 	void setRA(int ra);
 	int getRA();
 	void setDisciplina(Disciplina* pd);

@@ -1,5 +1,10 @@
 #pragma once
 
+#include <string.h>
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+
 class Universidade;
 class ListaDisciplinas;
 class Disciplina;
@@ -8,21 +13,21 @@ class Departamento
 {
     private:
         int id;
-        char nome[130];
+        string nome;
         int cont_disc;
         int numero_disc;
         Universidade* uniFiliada;
         //ListaDisciplinas ObjLDisciplinas;
 
     public:
-        Departamento(int i = -1, const char* n = "");
+        Departamento(int i = -1, string n = "");
         ~Departamento();
 
         void setNumeroDisciplinas(int i);
         int getNumeroDisciplinas();
 
-        void setNome(const char* n);
-        char* getNome();
+        void setNome(string n);
+        string getNome();
 
         void setId(int i);
         int getId();

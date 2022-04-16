@@ -17,7 +17,7 @@ void ListaAlunos::incluaAluno(Aluno* pa)
 {
     if (NULL != pa)
     {
-        LTAlunos.incluaInfo(pa);
+        LTAlunos.push_back(pa);
     } else
     {
         cout << "Ponteiro nulo. \n" << endl;
@@ -26,24 +26,17 @@ void ListaAlunos::incluaAluno(Aluno* pa)
 
 void ListaAlunos::listeAlunos()
 {
-    Elemento<Aluno>* pElAux = NULL;
-    Aluno* pAlAux = NULL;
-    pElAux = LTAlunos.getPrimeiro();
-
-    for (pElAux = LTAlunos.getPrimeiro(); pElAux != NULL; pElAux = pElAux->getProximo())
+    for (int i = 0; i < (int)LTAlunos.size(); i++)
     {
-        pAlAux = pElAux->getInfo();
-        cout << "Aluno " << pAlAux->getNome() << " matriculado na disciplina. " << endl;
+        cout << LTAlunos[i]->getNome() << endl;
     }
 }
 
 void ListaAlunos::listeAlunosInverso()
 {
-    Elemento<Aluno>* pElAux = NULL;
-    Aluno* pAlAux = NULL;
-    for (pElAux = LTAlunos.getAtual(); pElAux != NULL; pElAux = pElAux->getAnterior())
+    for (int i = LTAlunos.size(); i > 0; i--)
     {
-        cout << "Aluno " << pAlAux->getNome() << " matriculado na disciplina. " << endl;
+        cout << LTAlunos[i]->getNome() << endl;
     }
 }
 
@@ -59,16 +52,11 @@ void ListaAlunos::graveAlunos()
         return;
     }
 
-    Elemento<Aluno>* pAuxElAluno = NULL;
-    Aluno* pAuxAluno = NULL;
-
-    for (pAuxElAluno = LTAlunos.getPrimeiro(); pAuxElAluno != NULL; pAuxElAluno = pAuxElAluno->getProximo())
+    for (int i = 0; i < (int)LTAlunos.size(); i++)
     {
-        pAuxAluno = pAuxElAluno->getInfo();
-
-        GravadorAlunos << pAuxAluno->getId()   << ""
-                       << pAuxAluno->getRA()   << ""
-                       << pAuxAluno->getNome() << endl;
+        GravadorAlunos << LTAlunos[i]->getId()   << ""
+                       << LTAlunos[i]->getRA()   << ""
+                       << LTAlunos[i]->getNome() << endl;
     }
 
     GravadorAlunos.close();
@@ -95,10 +83,10 @@ void ListaAlunos::recupereAlunos()
         Aluno* pAuxAluno = NULL;
         int id;
         int RA;
-        char nome[150];
+        string nome;
 
         RecuperadorAlunos >> id >> RA >> nome;
-        if (0 != strcmp(nome, ""))
+        if (nome != "")
         {
             pAuxAluno = new Aluno(-1);
             pAuxAluno->setId(id);
@@ -117,7 +105,11 @@ void ListaAlunos::recupereAlunos()
 
 void ListaAlunos::limpaLista()
 {
-    LTAlunos.limpar();
+    for (int i = 0; i < (int)LTAlunos.size(); i++)
+    {
+        delete LTAlunos[i];
+    }
+    LTAlunos.clear();
 
     /// ESTAVA LIMPANDO A LISTA DUAS VEZES, UMA AQUI
     /// E UMA NA DESTRUTORA DA CLASSE LISTA.

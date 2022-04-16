@@ -2,11 +2,13 @@
 
 #include "Aluno.h"
 #include "Lista.h"
+#include <vector>
+using namespace std;
 
 class ListaAlunos
 {
     private:
-        Lista<Aluno> LTAlunos;
+        vector<Aluno*> LTAlunos;
 
     public:
         ListaAlunos();

@@ -8,15 +8,15 @@ class Universidade
 {
     private:
         int id;
-        char nome[100];
+        string nome;
         ListaDepartamentos ObjLDepartamentos;
 
     public:
-        Universidade(int i = -1, const char* n = "");
+        Universidade(int i = -1, const string n = "");
         ~Universidade();
 
-        void setNome(const char* n);
-        char* getNome();
+        void setNome(const string n);
+        string getNome();
 
         int getId();
         void setId(int i);
